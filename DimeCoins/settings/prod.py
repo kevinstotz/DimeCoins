@@ -1,4 +1,4 @@
-from DimeCoins.settings.base import PROJECT_DIR
+from .base import *
 from os.path import join
 from os import environ
 
@@ -10,7 +10,7 @@ ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
-        'NAME' : 'dimecoins-dev',
+        'NAME' : 'DimeCoins',
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
         'PORT': '3306',
@@ -22,7 +22,7 @@ DATABASES = {
 
 
 try:
-    from DimeCoins.settings import local
+    from .local import *
 except ImportError:
     local = None
     raise ImportError('local settings import not found')

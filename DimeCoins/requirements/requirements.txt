@@ -1,3 +1,4 @@
+Bittrex==0.1.4
 coinbase==2.0.7
 Django==2.0.1
 django-cors-headers==2.1.0

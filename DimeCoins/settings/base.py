@@ -1,10 +1,10 @@
 from os.path import join, abspath, dirname, relpath, realpath
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = abspath(dirname(__name__))  # .../DimeAPI
-PROJECT_DIR = dirname(dirname(abspath(__file__)))  # .../DimeAPI/DimeAPI
-SETTINGS_DIR = dirname(realpath(__file__))  # .../DimeAPI/DimeAPI/settings
-PROJECT_NAME = relpath(PROJECT_DIR)  # DimeAPI
+BASE_DIR = abspath(dirname(__name__))  # .../DimeCoins
+PROJECT_DIR = dirname(dirname(abspath(__file__)))  # .../DimeCoins/DimeCons
+SETTINGS_DIR = dirname(realpath(__file__))  # .../DimeCoins/DimeCoins/settings
+PROJECT_NAME = relpath(PROJECT_DIR)  # DimeCoins
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
