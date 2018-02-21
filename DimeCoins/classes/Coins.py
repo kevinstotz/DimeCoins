@@ -1,6 +1,6 @@
 import logging
 from django.core.exceptions import ObjectDoesNotExist
-from DimeCoins.models import BTC, BCH, BTG, DASH, DOGE, DSH, EOS, ETC, ETH, ICN, IOTA, LSK, \
+from DimeCoins.models import BTC, BCH, BTG, CRIX, DASH, DOGE, DSH, EOS, ETC, ETH, ICN, IOTA, LSK, \
     LTC, MAID, MIOTA, NEO, OMGC, REP, STEEM, WAVES, XEM, XMR, XRP, ZEC, ADA
 
 logger = logging.getLogger(__name__)
@@ -37,6 +37,12 @@ class Coins:
                 return BTG.objects.get(time=time, xchange=exchange)
             except ObjectDoesNotExist:
                 return BTG()
+
+        if self.symbol == 'CRIX':
+            try:
+                return CRIX.objects.get(time=time, xchange=exchange)
+            except ObjectDoesNotExist:
+                return CRIX()
 
         if self.symbol == 'DASH':
             try:

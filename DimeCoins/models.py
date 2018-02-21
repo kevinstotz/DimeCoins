@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
-from DimeCoins.settings.base import CURRENCY_NAME_LENGTH, COIN_SYMBOL_LENGTH
+from .settings.base import CURRENCY_NAME_LENGTH, COIN_SYMBOL_LENGTH
 
 
 class Xchange(models.Model):
@@ -80,6 +80,10 @@ class BTC(Coin):
 
 
 class BTG(Coin):
+    pass
+
+
+class CRIX(Coin):
     pass
 
 

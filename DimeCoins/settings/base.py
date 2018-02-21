@@ -326,7 +326,8 @@ XCHANGE = {
     'COIN_MARKET_CAP': 5,
     'COIN_API': 6,
     'BITTREX': 7,
-    'KRAKEN': 8
+    'KRAKEN': 8,
+    'CRYPTOINDEX': 9
 
 }
 

@@ -1,4 +1,4 @@
-from DimeCoins.settings.base import *
+from .base import *
 
 DEBUG = True
 
@@ -15,7 +15,7 @@ DATABASES = {
 }
 
 try:
-    from DimeCoins.settings.local import *
+    from .local import *
 except ImportError:
     local = None
     raise ImportError('local settings import not found')

@@ -64,8 +64,8 @@ class CryptoCompare:
                                                           currency_symbol,
                                                           self.comparison_currency)
         snap_shot_reponse = requests.get(url)
-        return(snap_shot_reponse.json())
+        return snap_shot_reponse.json()
 
     def getCoinMarketCap(self, currency_symbol):
         coin_snap_shot = self.getCoinSnapShot(currency_symbol)
-        return(coin_snap_shot.Data.TotalCoinsMined)
+        return coin_snap_shot.Data.TotalCoinsMined

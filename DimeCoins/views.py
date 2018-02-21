@@ -1,5 +1,5 @@
 from DimeCoins.models import Currency
-from DimeCoins.classes.Xchanges import CryptoCompare2, Gdax, CoinMarketCap, Coinbase, CoinApi, CoinDesk, Bittrex, Kraken
+from DimeCoins.classes.Xchanges import CryptoCompare2, Gdax, CoinMarketCap, Coinbase, CoinApi, CoinDesk, Bittrex, Kraken, CryptoIndeX
 import logging
 from rest_framework.renderers import JSONRenderer
 from rest_framework import generics, status
@@ -17,6 +17,8 @@ class Index(generics.GenericAPIView):
     renderer_classes = (JSONRenderer,)
 
     def get(self, request, *args, **kwargs):
+        exchange = CryptoIndeX.CryptoIndeX()
+        exchange.get()
 
         exchange = CoinMarketCap.CoinMarketCap()
         exchange.get()
