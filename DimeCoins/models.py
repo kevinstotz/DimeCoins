@@ -20,28 +20,6 @@ class Xchange(models.Model):
         ordering = ('name',)
 
 
-class CryptoCompare(models.Model):
-    xchange_coin = models.IntegerField(default=1)
-    xchange = models.ForeignKey(Xchange, on_delete=models.CASCADE)
-    name = models.CharField(max_length=CURRENCY_NAME_LENGTH, default="")
-    symbol = models.CharField(max_length=COIN_SYMBOL_LENGTH, default="")
-    total_coin_supply = models.FloatField(default=0.0)
-    total_coins_free_float = models.CharField(max_length=20, default="")
-
-    objects = models.Manager()
-
-
-class Gdax(models.Model):
-    xchange_coin = models.IntegerField(default=1)
-    xchange = models.ForeignKey(Xchange, on_delete=models.CASCADE)
-    name = models.CharField(max_length=CURRENCY_NAME_LENGTH, default="")
-    symbol = models.CharField(max_length=COIN_SYMBOL_LENGTH, default="")
-    total_coin_supply = models.FloatField(default=0.0)
-    total_coins_free_float = models.CharField(max_length=20, default="")
-
-    objects = models.Manager()
-
-
 class Currency(models.Model):
     id = models.AutoField(primary_key=True)
     symbol = models.CharField(max_length=COIN_SYMBOL_LENGTH, default="")
@@ -58,6 +36,7 @@ class Coin(models.Model):
     close = models.FloatField(default=0.0)
     high = models.FloatField(default=0.0)
     low = models.FloatField(default=0.0)
+    total_supply = models.FloatField(default=0.0)
     volume = models.FloatField(default=0.0)
     market_cap = models.FloatField(default=0.0)
 
