@@ -1,12 +1,12 @@
 from datetime import datetime
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from models import BitCoin
+from DimeCoins.models.base import Xchange
 
 
-class DimeIndexSerializer(ModelSerializer):
+
+class XchangeSerializer(ModelSerializer):
 
     class Meta:
-        model = BitCoin
-        fields = ('id', 'currency',)
-
+        model = Xchange
+        fields = ('id', 'currency', 'name', 'url', 'api_url', 'api_key', 'api_secret', 'start_date', 'end_date', 'number_symbols')

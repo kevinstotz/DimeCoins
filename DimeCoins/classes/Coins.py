@@ -1,7 +1,34 @@
 import logging
 from django.core.exceptions import ObjectDoesNotExist
-from DimeCoins.models import BTC, BCH, BTG, CRIX, DASH, DOGE, DSH, EOS, ETC, ETH, ICN, IOTA, LSK, \
-    LTC, MAID, MIOTA, NEO, OMGC, REP, STEEM, WAVES, XEM, XMR, XRP, ZEC, ADA
+from DimeCoins.models.coins0 import *
+from DimeCoins.models.coins70 import *
+from DimeCoins.models.coins140 import *
+from DimeCoins.models.coins210 import *
+from DimeCoins.models.coins280 import *
+from DimeCoins.models.coins350 import *
+from DimeCoins.models.coins490 import *
+from DimeCoins.models.coins560 import *
+from DimeCoins.models.coins630 import *
+from DimeCoins.models.coins700 import *
+from DimeCoins.models.coins770 import *
+from DimeCoins.models.coins840 import *
+from DimeCoins.models.coins910 import *
+from DimeCoins.models.coins980 import *
+from DimeCoins.models.coins1050 import *
+from DimeCoins.models.coins1120 import *
+from DimeCoins.models.coins1190 import *
+from DimeCoins.models.coins1260 import *
+from DimeCoins.models.coins1330 import *
+from DimeCoins.models.coins1470 import *
+from DimeCoins.models.coins1540 import *
+from DimeCoins.models.coins1610 import *
+from DimeCoins.models.coins1680 import *
+from DimeCoins.models.coins1750 import *
+from DimeCoins.models.coins1890 import *
+from DimeCoins.models.coins1960 import *
+from DimeCoins.models.coins2030 import *
+from DimeCoins.models.coins2100 import *
+from DimeCoins.models.coins2170 import *
 
 logger = logging.getLogger(__name__)
 
@@ -9,163 +36,48 @@ logger = logging.getLogger(__name__)
 class Coins:
 
     def __init__(self):
-        self.symbol = ''
+        pass
 
     def get_coin_type(self,  symbol, time, exchange):
-        self.symbol = symbol
+        symbol = self.parse_symbol(symbol)
+        try:
+            coin_class = eval(symbol)
+            return coin_class.objects.get(time=time, xchange=exchange)
+        except ObjectDoesNotExist:
+            return eval(symbol)()
 
-        if self.symbol == 'ADA':
-            try:
-                return ADA.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return ADA()
+    @staticmethod
+    def parse_symbol(symbol):
+        new_symbol = ""
+        for idx, char in enumerate(symbol):
+            if idx == 0:
+                if char.isdigit():
+                    if int(char) == 1:
+                        new_symbol = new_symbol + 'ONE_'
+                    if int(char) == 2:
+                        new_symbol = new_symbol + 'TWO_'
+                    if int(char) == 3:
+                        new_symbol = new_symbol + 'THREE_'
+                    if int(char) == 4:
+                        new_symbol = new_symbol + 'FOUR_'
+                    if int(char) == 5:
+                        new_symbol = new_symbol + 'FIVE_'
+                    if int(char) == 6:
+                        new_symbol = new_symbol + 'SIX_'
+                    if int(char) == 7:
+                        new_symbol = new_symbol + 'SEVEN_'
+                    if int(char) == 8:
+                        new_symbol = new_symbol + 'EIGHT_'
+                    if int(char) == 9:
+                        new_symbol = new_symbol + 'NINE_'
+                    if int(char) == 0:
+                        new_symbol = new_symbol + 'ZERO_'
+                elif char.encode('ascii').isalpha():
+                    new_symbol = new_symbol + char
+                else:
+                    pass
+            else:
+                if char.encode('ascii').isalpha() or char.isdigit():
+                    new_symbol = new_symbol + char
 
-        if self.symbol == 'BCH':
-            try:
-                return BCH.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return BCH()
-
-        if self.symbol == 'BTC':
-            try:
-                return BTC.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return BTC()
-
-        if self.symbol == 'BTG':
-            try:
-                return BTG.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return BTG()
-
-        if self.symbol == 'CRIX':
-            try:
-                return CRIX.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return CRIX()
-
-        if self.symbol == 'DASH':
-            try:
-                return DASH.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return DASH()
-
-        if self.symbol == 'DOGE':
-            try:
-                return DOGE.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return DOGE()
-
-        if self.symbol == 'DSH':
-            try:
-                return DSH.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return DSH()
-
-        if self.symbol == 'EOS':
-            try:
-                return EOS.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return EOS()
-
-        if self.symbol == 'ETH':
-            try:
-                return ETH.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return ETH()
-
-        if self.symbol == 'ETC':
-            try:
-                return ETC.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return ETC()
-
-        if self.symbol == 'ICN':
-            try:
-                return ICN.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return ICN()
-
-        if self.symbol == 'LTC':
-            try:
-                return LTC.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return LTC()
-
-        if self.symbol == 'LSK':
-            try:
-                return LSK.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return LSK()
-
-        if self.symbol == 'MAID':
-            try:
-                return MAID.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return MAID()
-
-        if self.symbol == 'MIOTA':
-            try:
-                return MIOTA.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return MIOTA()
-
-        if self.symbol == 'IOTA':
-            try:
-                return IOTA.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return IOTA()
-
-        if self.symbol == 'NEO':
-            try:
-                return NEO.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return NEO()
-
-        if self.symbol == 'OMGC':
-            try:
-                return OMGC.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return OMGC()
-
-        if self.symbol == 'REP':
-            try:
-                return REP.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return REP()
-
-        if self.symbol == 'STEEM':
-            try:
-                return STEEM.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return STEEM()
-
-        if self.symbol == 'WAVES':
-            try:
-                return WAVES.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return WAVES()
-
-        if self.symbol == 'XEM':
-            try:
-                return XEM.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return XEM()
-
-        if self.symbol == 'XMR':
-            try:
-                return XMR.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return XMR()
-
-        if self.symbol == 'XRP':
-            try:
-                return XRP.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return XRP()
-
-        if self.symbol == 'ZEC':
-            try:
-                return ZEC.objects.get(time=time, xchange=exchange)
-            except ObjectDoesNotExist:
-                return ZEC()
+        return new_symbol

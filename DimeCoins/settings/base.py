@@ -327,7 +327,9 @@ XCHANGE = {
     'COIN_API': 6,
     'BITTREX': 7,
     'KRAKEN': 8,
-    'CRYPTOINDEX': 9
+    'CRYPTOINDEX': 9,
+    'BITSTAMP': 10,
+    'POLONIEX': 13
 
 }
 

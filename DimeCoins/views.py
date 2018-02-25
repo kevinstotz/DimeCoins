@@ -1,10 +1,9 @@
-from DimeCoins.models import Currency
-from DimeCoins.classes.Xchanges import CryptoCompare2, Gdax, CoinMarketCap, Coinbase, CoinApi, CoinDesk, Bittrex, Kraken, CryptoIndeX
+from DimeCoins.models.base import Currency
 import logging
 from rest_framework.renderers import JSONRenderer
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
+
 from rest_framework.parsers import JSONParser
 
 logger = logging.getLogger(__name__)
@@ -17,34 +16,4 @@ class Index(generics.GenericAPIView):
     renderer_classes = (JSONRenderer,)
 
     def get(self, request, *args, **kwargs):
-        exchange = CryptoIndeX.CryptoIndeX()
-        exchange.get()
-
-        exchange = CoinMarketCap.CoinMarketCap()
-        exchange.get()
-
-        exchange = CoinDesk.CoinDesk()
-        exchange.get()
-
-        exchange = CoinDesk.CoinDesk()
-        exchange.get()
-
-        exchange = Bittrex.Bittrex()
-        exchange.get()
-
-        exchange = Kraken.Kraken()
-        exchange.get()
-
-        exchange = CoinApi.CoinApi()
-        exchange.get()
-
-        exchange = Coinbase.Coinbase()
-        exchange.get()
-
-        exchange = Gdax.Gdax()
-        exchange.get()
-
-        exchange = CryptoCompare2.CryptoCompare()
-        exchange.get()
-
-        return Response(status=status.HTTP_200_OK)
+        pass
