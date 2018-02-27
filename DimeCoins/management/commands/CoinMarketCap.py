@@ -17,42 +17,20 @@ logging.basicConfig(level=logging.DEBUG,
 
 
 class Command(BaseCommand):
+    xchange = Xchange.objects.get(pk=XCHANGE['COIN_MARKET_CAP'])
+    comparison_currency = 'USD'
 
     def handle(self, *args, **options):
         #  instance variable unique to each instance
 
-        self.xchange = Xchange.objects.get(pk=XCHANGE['COIN_MARKET_CAP'])
-        self.comparison_currency = 'USD'
-        self.coin_list_url = ''
-
-        now = datetime.now()
-        start_date = now.replace(second=0, minute=0, hour=0)
-        end_date = start_date - timedelta(days=10)
-        id = 0
+        now = datetime.datetime.now()
+        start_date = now.replace(year=2018, month=2, day=25, second=0, minute=0, hour=0)
+        start_date = start_date - timedelta(weeks=0)
+        end_date = start_date - timedelta(weeks=3)
 
         while end_date < start_date:
-            start_date = start_date - timedelta(days=1)
             self.parse(start_date)
-
-    def getPrice(self, currency_symbol, start_date, end_date, granularity=86400):
-        params = {'granularity': granularity,
-                   'start': start_date,
-                   'end': end_date}
-
-        headers = {'content-type': 'application/json','user-agent': 'your-own-user-agent/0.0.1'}
-        spot_price = requests.get(self.xchange.api_url + '/products/' + currency_symbol + '-' +
-                                  self.comparison_currency + '/candles?granularity={0}&start={1}&end={2}'.format(granularity, start_date, end_date), headers=headers)
-        if spot_price.status_code == requests.codes.ok:
-            return spot_price.json()
-        else:
-            return([])
-
-    def getCoins(self):
-        headers = {'content-type': 'application/json',
-                   'user-agent': 'your-own-user-agent/0.0.1'}
-        params = {}
-        currencies = requests.get(self.coin_list_url, params=params, headers=headers)
-        return currencies.json()['Data']
+            start_date = start_date - timedelta(weeks=1)
 
     def parse(self, start_date):
 
@@ -94,32 +72,33 @@ class Command(BaseCommand):
 
             try:
                 currency = Currency.objects.get(symbol=new_symbol.parse_symbol())
-                print(symbol + " exists")
             except ObjectDoesNotExist as error:
-                print(symbol + " does not exist in our currency list..adding")
+                print(symbol + " does not exist in our currency list..continuing")
+                continue
                 currency = Currency()
                 currency.symbol = new_symbol.parse_symbol()
                 try:
                     currency.save()
                     currency = Currency.objects.get(symbol=currency.symbol)
-                    print("added")
+                    print(symbol)
                 except:
                     print("failed adding {0}".format(currency.symbol))
                     continue
 
             coins = Coins.Coins()
 
-            coin = coins.get_coin_type(symbol=currency.symbol, time=int(calendar.timegm(start_date.timetuple())), exchange=self.xchange)
-            coin.xchange = self.xchange
-            coin.close = price
-            coin.currency = currency
-            coin.time = int(calendar.timegm(start_date.timetuple()))
-            coin.market_cap = market_cap
-            coin.total_supply = circulating_supply
-            coin.save()
+            coin = coins.get_coin_type(symbol=symbol, time=int(calendar.timegm(start_date.timetuple())), exchange=self.xchange)
+            if coin is not None:
+                coin.xchange = self.xchange
+                coin.close = price
+                coin.currency = currency
+                coin.time = int(calendar.timegm(start_date.timetuple()))
+                coin.market_cap = market_cap
+                coin.total_supply = circulating_supply
+                coin.save()
+            else:
+                print("no class " + symbol)
         return
-
-
 
     def __date_to_iso8601(self, date_time):
         return '{year}-{month:02d}-{day:02d}T{hour:02d}:{minute:02d}:{second:02d}'.format(

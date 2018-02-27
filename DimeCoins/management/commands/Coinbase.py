@@ -18,18 +18,18 @@ logging.basicConfig(level=logging.DEBUG,
 
 
 class Command(BaseCommand):
+    comparison_currency = 'USD'
+    coin_list_url = 'https://api.coinbase.com/v2/currencies'
+    api_version = '2018-02-14'
+    xchange = Xchange.objects.get(pk=XCHANGE['COINBASE'])
 
     def handle(self, *args, **options):
         #  instance variable unique to each instance
-        self.xchange = Xchange.objects.get(pk=XCHANGE['COINBASE'])
+
         try:
             self.client = Client(self.xchange.api_key, self.xchange.api_secret, api_version='2018-01-14')
         except ObjectDoesNotExist as error:
             logging.debug('Client does not exist:{0}'.format( error))
-
-        self.comparison_currency = 'USD'
-        self.coin_list_url = 'https://api.coinbase.com/v2/currencies'
-        self.api_version = '2018-02-14'
 
         xchange_coins = json.loads(self.getCoins())
 
@@ -44,7 +44,6 @@ class Command(BaseCommand):
                 currency.symbol = symbol.parse_symbol()
                 try:
                     currency.save()
-                    currency = Currency.objects.get(symbol=symbol)
                     print("added")
                 except:
                     print("failed adding {0}".format(xchange_coin['id']))
@@ -56,7 +55,7 @@ class Command(BaseCommand):
 
             while end_date < start_date:
 
-                prices = self.getPrice(xchange_coin['id'], date=start_date)
+                prices = self.getPrice(xchange_coin['id'], date=start_date.strftime('%Y-%m-%d'))
                 coins = Coins.Coins()
                 if prices != 0:
                     coin = coins.get_coin_type(symbol=currency.symbol,
@@ -68,6 +67,7 @@ class Command(BaseCommand):
                     coin.currency = currency
                     coin.save()
                 start_date = start_date - timedelta(days=1)
+
 
     def getCoins(self):
         headers = {'content-type': 'application/json',

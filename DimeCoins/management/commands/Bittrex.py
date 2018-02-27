@@ -39,7 +39,6 @@ class Command(BaseCommand):
 
         for exchange_coin in exchange_coins['result']:
 
-            print(exchange_coin)
             try:
                 currency = Currency.objects.get(symbol=exchange_coin['Currency'])
                 print(exchange_coin['Currency'] + " exists")
@@ -50,7 +49,6 @@ class Command(BaseCommand):
                 currency.symbol = symbol.parse_symbol()
                 try:
                     currency.save()
-                    currency = Currency.objects.get(symbol=symbol)
                     print("added")
                 except:
                     print("failed adding {0}".format(exchange_coin['Currency']))
@@ -62,7 +60,7 @@ class Command(BaseCommand):
                 continue
             coins = Coins.Coins()
             if prices == {} or prices == None or type(prices) == 'None':
-                print(currency.symbol + "Not found")
+                print(currency.symbol + " No prices found")
                 continue
 
             for price in prices:
@@ -79,14 +77,6 @@ class Command(BaseCommand):
                 coin.currency = currency
                 coin.save()
         return
-
-    def test_result(self, ret, result_type=list):
-        self.assertEqual(ret['success'], True)
-        self.assertEqual(ret['message'], "")
-        if type(result_type) is list:
-            self.assertIn(type(ret['result']), result_type)
-        else:
-            self.assertIs(type(ret['result']), result_type)
 
     def getPrice(self, currency_symbol):
         try:

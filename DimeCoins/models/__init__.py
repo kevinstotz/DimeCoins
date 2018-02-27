@@ -30,6 +30,7 @@ from . import coins1890
 from . import coins1960
 from . import coins2030
 from . import coins2100
+from . import coins2170
 from . import coins2240
 from . import coins2310
 from . import coins2380

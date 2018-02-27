@@ -330,7 +330,6 @@ XCHANGE = {
     'CRYPTOINDEX': 9,
     'BITSTAMP': 10,
     'POLONIEX': 13
-
 }
 
 ADDRESS_LENGTH = 42

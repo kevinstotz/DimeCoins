@@ -46,7 +46,7 @@ class Command(BaseCommand):
             if prices != 0:
                 for price in prices:
                     coins = Coins.Coins()
-                    coin = coins.get_coin_type(symbol=currency.symbol, time=int(price[0]), exchange=self.xchange)
+                    coin = coins.get_coin_type(symbol=xchange_coins[xchange_coin]['altname'], time=int(price[0]), exchange=self.xchange)
                     coin.time = int(price[0])
                     coin.open = float(price[1])
                     coin.close = float(price[4])
@@ -56,7 +56,6 @@ class Command(BaseCommand):
                     coin.xchange = self.xchange
                     coin.currency = currency
                     coin.save()
-
 
     def getPrice(self, currency_symbol):
         try:
