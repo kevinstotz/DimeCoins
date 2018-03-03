@@ -7,7 +7,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from DimeCoins.settings.base import XCHANGE
 from datetime import datetime, timedelta
 import logging
-import time
 import json
 import calendar
 
@@ -51,7 +50,7 @@ class Command(BaseCommand):
 
             now = datetime.now()
             start_date = now.replace(second=0, minute=0, hour=0)
-            end_date = start_date - timedelta(days=2)
+            end_date = start_date - timedelta(days=1000)
 
             while end_date < start_date:
 

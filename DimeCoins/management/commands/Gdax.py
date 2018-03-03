@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
             now = datetime.now()
             start_date = now.replace(second=0, minute=0, hour=0)
-            end_date = start_date - timedelta(days=700)
+            end_date = start_date - timedelta(days=7)
 
             while end_date < start_date:
                 sleep(2)

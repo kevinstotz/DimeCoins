@@ -44,7 +44,7 @@ class Command(BaseCommand):
 
             now = datetime.now()
             start_date = now.replace(second=0, minute=0, hour=0)
-            end_date = start_date - timedelta(days=5)
+            end_date = start_date - timedelta(days=7)
 
             while end_date < start_date:
                 start_date_ts = calendar.timegm(start_date.timetuple())
@@ -52,7 +52,6 @@ class Command(BaseCommand):
 
                 if prices != 0:
                     for price in prices:
-                        print(prices[price])
                         coins = Coins.Coins()
                         coin = coins.get_coin_type(symbol=currency.symbol, time=start_date_ts, exchange=self.xchange)
                         coin.time = start_date_ts
@@ -61,7 +60,7 @@ class Command(BaseCommand):
                         coin.currency = currency
                         coin.save()
                 start_date = start_date - timedelta(days=1)
-            quit()
+
         return 0
 
     def getPrice(self, currency_symbol, start_date):
