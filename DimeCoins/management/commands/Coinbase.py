@@ -50,13 +50,13 @@ class Command(BaseCommand):
 
             now = datetime.now()
             start_date = now.replace(second=0, minute=0, hour=0)
-            end_date = start_date - timedelta(days=1000)
+            end_date = start_date - timedelta(days=10)
 
             while end_date < start_date:
 
                 prices = self.getPrice(xchange_coin['id'], date=start_date.strftime('%Y-%m-%d'))
                 coins = Coins.Coins()
-                if prices != 0:
+                if len(prices) != 0:
                     coin = coins.get_coin_type(symbol=currency.symbol,
                                                   time=int(calendar.timegm(start_date.timetuple())),
                                                   exchange=self.xchange)
@@ -79,5 +79,5 @@ class Command(BaseCommand):
         try:
             res = self.client.get_spot_price(currency_pair=currency_symbol + '-USD', date=date)
         except:
-           res = 0
+           res = {}
         return res

@@ -1,4 +1,4 @@
-from DimeCoins.models.base import Xchange, Currency
+from DimeCoins.models.base import Xchange, Currency, TopCoins
 from django.core.management.base import BaseCommand
 from django.core.exceptions import ObjectDoesNotExist
 from DimeCoins.classes import Coins, SymbolName
@@ -25,10 +25,10 @@ class Command(BaseCommand):
 
         now = datetime.datetime.now()
         end_date = start_date = now.replace(second=0, minute=0, hour=0)
-        start_date = start_date - timedelta(days=7)
+        start_date = start_date - timedelta(days=1000)
         currencies = Currency.objects.all()
         currencies= [
-            [0, 'BTC', 'bitcoin'],
+            [0, 'STRAT', 'stratis'],
             [1, 'BTS', 'bitshares'],
             [2, 'ETH', 'Ethereum'],
             [3, 'LTC', 'Litecoin'],
@@ -53,16 +53,16 @@ class Command(BaseCommand):
             [22, 'ADA', 'Cardano'],
             [23, 'BCH', 'Bitcoin-Cash'],
             [24, 'DASH', 'dash'],
-            [25, 'XLM', 'stellar']
+            [25, 'XLM', 'stellar'],
+            [26, 'STRAT', 'stratis']
         ]
         for currency in currencies:
             self.parseHistoricalPage(currency, start_date, end_date)
-        quit()
-
+        return
         now = datetime.datetime.now()
-        start_date = now.replace(second=0, minute=0, hour=0)
-        start_date = start_date - timedelta(days=1)
-        end_date = start_date - timedelta(weeks=1)
+        start_date = now.replace(month=2, day=25, second=0, minute=0, hour=0)
+        start_date = start_date - timedelta(days=0)
+        end_date = start_date - timedelta(weeks=200)
 
         while end_date < start_date:
             self.parse(start_date)
@@ -151,6 +151,18 @@ class Command(BaseCommand):
                 coin.time = int(calendar.timegm(timestamp.timetuple()))
                 coin.market_cap = market_cap
                 coin.save()
+
+                try:
+                    topCoin = TopCoins.objects.get(currency=currency, xchange=self.xchange, time=int(calendar.timegm(timestamp.timetuple())))
+                except ObjectDoesNotExist as error:
+                    topCoin = TopCoins()
+
+                topCoin.currency = currency
+                topCoin.market_cap = float(market_cap)
+                topCoin.price = float(close)
+                topCoin.xchange = self.xchange
+                topCoin.time = int(calendar.timegm(timestamp.timetuple()))
+                topCoin.save()
             else:
                 print("no class " + symbol)
         return
@@ -220,6 +232,8 @@ class Command(BaseCommand):
                 coin.market_cap = market_cap
                 coin.total_supply = circulating_supply
                 coin.save()
+
+
             else:
                 print("no class " + symbol)
         return

@@ -1,12 +1,10 @@
 from DimeCoins.models.base import Xchange, Currency
 from DimeCoins.classes import Coins
-import calendar
 from django.core.management.base import BaseCommand
 import requests
 from DimeCoins.settings.base import XCHANGE
 from datetime import datetime
 import logging
-from decimal import Decimal
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s (%(threadName)-2s) %(message)s',

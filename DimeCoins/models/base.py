@@ -30,6 +30,24 @@ class Currency(models.Model):
     objects = models.Manager()
 
 
+class TopCoins(models.Model):
+    id = models.AutoField(primary_key=True)
+    currency = models.ForeignKey(Currency, on_delete=models.SET_DEFAULT, default=1)
+    price = models.FloatField(default=0.0)
+    total_supply = models.BigIntegerField(default=0)
+    market_cap = models.FloatField(default=0.0)
+    xchange = models.ForeignKey(Xchange, on_delete=models.SET_DEFAULT, default=1)
+    time = models.BigIntegerField(verbose_name="Date of Price", default=0)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        ordering = ('currency',)
+
+
 class Coin(models.Model):
     id = models.AutoField(primary_key=True)
     xchange = models.ForeignKey(Xchange, on_delete=models.SET_DEFAULT, default=1)
