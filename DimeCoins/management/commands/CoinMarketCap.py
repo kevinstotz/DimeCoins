@@ -28,7 +28,7 @@ class Command(BaseCommand):
         start_date = start_date - timedelta(days=1000)
         currencies = Currency.objects.all()
         currencies= [
-            [0, 'STRAT', 'stratis'],
+            [0, 'BTC', 'bitcoin'],
             [1, 'BTS', 'bitshares'],
             [2, 'ETH', 'Ethereum'],
             [3, 'LTC', 'Litecoin'],
