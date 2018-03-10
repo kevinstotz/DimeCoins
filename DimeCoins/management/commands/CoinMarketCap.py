@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
         now = datetime.datetime.now()
         end_date = start_date = now.replace(second=0, minute=0, hour=0)
-        start_date = start_date - timedelta(days=1000)
+        start_date = start_date - timedelta(days=10)
         currencies = Currency.objects.all()
         currencies= [
             [0, 'BTC', 'bitcoin'],
@@ -62,7 +62,7 @@ class Command(BaseCommand):
         now = datetime.datetime.now()
         start_date = now.replace(month=2, day=25, second=0, minute=0, hour=0)
         start_date = start_date - timedelta(days=0)
-        end_date = start_date - timedelta(weeks=200)
+        end_date = start_date - timedelta(weeks=2)
 
         while end_date < start_date:
             self.parse(start_date)

@@ -26,11 +26,13 @@ class Command(BaseCommand):
         xchange_coins = self.getCoins()
 
         for xchange_coin in xchange_coins:
+
             try:
                 currency = Currency.objects.get(symbol=xchange_coins[xchange_coin]['Symbol'])
                 print(xchange_coins[xchange_coin]['Symbol'] + " exists")
             except ObjectDoesNotExist as error:
                 print(xchange_coins[xchange_coin]['Symbol'] + " does not exist in our currency list..adding" + error)
+                continue
                 currency = Currency()
                 symbol = SymbolName.SymbolName(xchange_coins[xchange_coin]['Symbol'])
                 currency.symbol = symbol.parse_symbol()
@@ -48,12 +50,14 @@ class Command(BaseCommand):
 
             while end_date < start_date:
                 start_date_ts = calendar.timegm(start_date.timetuple())
-                prices = self.getPrice(currency.symbol, start_date_ts)
+                prices = self.getPrice(currency.symbol.replace('*', ''), start_date_ts)
 
-                if prices != 0:
+                if len(prices) > 0:
                     for price in prices:
+                        if prices[price] == 'Error':
+                            break
                         coins = Coins.Coins()
-                        coin = coins.get_coin_type(symbol=currency.symbol, time=start_date_ts, exchange=self.xchange)
+                        coin = coins.get_coin_type(symbol=currency.symbol.replace('*', ''), time=start_date_ts, exchange=self.xchange)
                         coin.time = start_date_ts
                         coin.close = float(prices[price]['USD'])
                         coin.xchange = self.xchange
@@ -73,7 +77,7 @@ class Command(BaseCommand):
         if spot_price.status_code == 200:
             return spot_price.json()
         else:
-            return 0
+            return {}
 
     def getCoins(self):
         headers = {'content-type': 'application/json',
